@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>symphonic metal world</title>
+    <link rel="stylesheet" href="css/test.css">
+    <script src="js/test.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#groups">Groups</a></li>
+            <li><a href="#music">Music</a></li>
+            <li><a href="symphonicMetal.html">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section with Slider -->
+    <section id="home" class="hero-section">
+        <div class="slider">
+            <div class="slide active">
+                <span class="slide-text">Nightwish</span>
+            </div>
+            <div class="slide">
+                <span class="slide-text">EPICA</span>
+            </div>
+            <div class="slide">
+                <span class="slide-text">WithinTemptation</span>
+            </div>
+            <div class="slide">
+                <span class="slide-text">LacunaCoil</span>
+            </div>
+            <div class="slide">
+                <span class="slide-text">AMARANTHE</span>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">SYMPHONIC METAL</h1>
+            <p class="hero-subtitle">오케스트라의 웅장함과 메탈의 파워가 만나는 곳</p>
+        </div>
+
+        <div class="slider-nav">
+            <div class="nav-dot active" onclick="goToSlide(0)">
+            </div>
+            <div class="nav-dot" onclick="goToSlide(1)"></div>
+            <div class="nav-dot" onclick="goToSlide(2)"></div>
+            <div class="nav-dot" onclick="goToSlide(3)"></div>
+            <div class="nav-dot" onclick="goToSlide(4)"></div>
+        </div>
+    </section>
+
+    <!-- Groups Section -->
+    <section id="groups" class="groups-section">
+        <h2 class="section-title fade-in">전설적인 심포닉 메탈 그룹들</h2>
+
+        <div class="groups-container">
+        <div class="group-card fade-in">
+            <h3 class="group-name">NIGHTWISH</h3>
+            <p class="group-description">
+                핀란드 출신의 심포닉 메탈 선구자. Tarja Turunen의 오페라틱한 보컬로 시작해 현재 Floor Jansen의 다채로운 보컬까지, 
+                오케스트라와 메탈의 완벽한 조화를 보여주는 대표적인 밴드입니다.
+            </p>
+            <div class="music-player">
+                <button class="play-btn" onclick="toggleVideo(this, 'nightwish-video')">▶</button>
+                <div class="track-info">
+                    <div class="track-name">Ghost LOve Score</div>
+                    <div class="track-duration">10:22</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-nightwish"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-container" id="video-container-nightwish" style="display: none;">
+                <video id="nightwish-video" controls width="100%">
+                    <source src="video/nightwish.mp4" type="video/mp4">
+                    브라우저가 비디오를 지원하지 않습니다.
+                </video>
+            </div>
+        </div>
+
+        <div class="group-card fade-in">
+            <h3 class="group-name">EPICA</h3>
+            <p class="group-description">
+                네덜란드의 심포닉 메탈 거장들. Simone Simons의 천상의 보컬과 Mark Jansen의 그로울이 조화를 이루며,
+                철학적 가사와 복잡한 음악 구조로 심포닉 메탈의 새로운 지평을 열었습니다.
+            </p>
+            <div class="music-player">
+                <button class="play-btn" onclick="toggleVideo(this, 'epica-video')">▶</button>
+                <div class="track-info">
+                    <div class="track-name">Arcana</div>
+                    <div class="track-duration">5:08</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-epica"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-container" id="video-container-epica" style="display: none;">
+                <video id="epica-video" controls width="100%">
+                    <source src="video/epica.mp4" type="video/mp4">
+                    브라우저가 비디오를 지원하지 않습니다.
+                </video>
+            </div>
+        </div>
+
+        <div class="group-card fade-in">
+            <h3 class="group-name">WITHIN TEMPTATION</h3>
+            <p class="group-description">
+                네덜란드의 또 다른 보석. Sharon den Adel의 강력하면서도 감성적인 보컬로 심포닉 메탈과
+                고딕 메탈의 경계를 넘나들며 전 세계적인 성공을 거둔 밴드입니다.
+            </p>
+            <div class="music-player">
+                <button class="play-btn" onclick="toggleVideo(this, 'within-video')">▶</button>
+                <div class="track-info">
+                    <div class="track-name">Ice Queen</div>
+                    <div class="track-duration">4:40</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-within"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-container" id="video-container-within" style="display: none;">
+                <video id="within-video" controls width="100%">
+                    <source src="video/within.mp4" type="video/mp4">
+                    브라우저가 비디오를 지원하지 않습니다.
+                </video>
+            </div>
+        </div>
+
+        <div class="group-card fade-in">
+            <h3 class="group-name">LACUNA COIL</h3>
+            <p class="group-description">
+                이탈리아의 고딕/심포닉 메탈 대표주자. Cristina Scabbia와 Andrea Ferro의 듀얼 보컬 시스템으로
+                어둡고 몽환적인 분위기와 멜로딕한 아름다움을 동시에 선사합니다.
+            </p>
+            <div class="music-player">
+                <button class="play-btn" onclick="toggleVideo(this, 'lacuna-video')">▶</button>
+                <div class="track-info">
+                    <div class="track-name">Enjoy The Silence</div>
+                    <div class="track-duration">4:33</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-lacuna"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-container" id="video-container-lacuna" style="display: none;">
+                <video id="lacuna-video" controls width="100%">
+                    <source src="video/lacuna.mp4" type="video/mp4">
+                    브라우저가 비디오를 지원하지 않습니다.
+                </video>
+            </div>
+        </div>
+
+        <div class="group-card fade-in">
+            <h3 class="group-name">AMARANTHE</h3>
+            <p class="group-description">
+                스웨덴의 혁신적인 밴드. 세 명의 보컬리스트가 각각 클린 보컬, 그로울, 팝 멜로디를 담당하며
+                심포닉 메탈에 모던한 요소를 접목시킨 차세대 선도주자입니다.
+            </p>
+            <div class="music-player">
+                <button class="play-btn" onclick="toggleVideo(this, 'amaranthe-video')">▶</button>
+                <div class="track-info">
+                    <div class="track-name">Amaranthine</div>
+                    <div class="track-duration">3:39</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-amaranthe"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-container" id="video-container-amaranthe" style="display: none;">
+                <video id="amaranthe-video" controls width="100%">
+                    <source src="video/amaranthe.mp4" type="video/mp4">
+                    브라우저가 비디오를 지원하지 않습니다.
+                </video>
+            </div>
+        </div>
+    </div>
+    </section>
+    <!-- about 섹션 -->
+    <section id="about" class="groups-section">
+        <h2 class="section-title fade-in">About Symphonic Metal</h2>
+        <p class="group-description fade-in" style="max-width:800px; margin: 0 auto; text-align:center;">
+            심포닉 메탈은 오케스트라의 장엄함과 메탈의 강렬함을 결합한 장르로, 감성적이면서도 드라마틱한 사운드로 전 세계 팬들을 사로잡고 있습니다.
+        </p>
+    </section>
+
+
+ 
+
+</body>
+
+</html>
