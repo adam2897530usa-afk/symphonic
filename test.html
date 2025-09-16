@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #2d1b69, #000);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #8a2be2;
+        }
+
+        /* Hero Section with Slider */
+        .hero-section {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            filter: brightness(0.4);
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide:nth-child(1) {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url(../img/nightwish.jpg) no-repeat center;
+        }
+
+        .slide:nth-child(2) {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url(../img/epica.jpg) no-repeat center/cover;
+        }
+
+        .slide:nth-child(3) {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url(../img/within.jpg) no-repeat center/cover;
+        }
+
+        .slide:nth-child(4) {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><rect fill="%23000033" width="800" height="600"/><path d="M400,100 L300,300 L500,300 Z M400,500 L300,300 L500,300 Z" fill="%23777" opacity="0.3"/><text x="400" y="320" text-anchor="middle" fill="%23fff" font-size="48" font-family="serif">LACUNA COIL</text></svg>');
+        }
+
+        .slide:nth-child(5) {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><rect fill="%23330033" width="800" height="600"/><ellipse cx="400" cy="300" rx="200" ry="100" fill="%23888" opacity="0.3"/><text x="400" y="320" text-anchor="middle" fill="%23fff" font-size="48" font-family="serif">AMARANTHE</text></svg>');
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            background: linear-gradient(45deg, #fff, #8a2be2, #ff6b6b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px rgba(138, 43, 226, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.8)); }
+        }
+
+        /* Slider Navigation */
+        .slider-nav {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #8a2be2;
+            transform: scale(1.2);
+        }
+
+        /* Groups Section */
+        .groups-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #1a1a1a, #2d1b69);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #8a2be2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .groups-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .group-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .group-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.3);
+        }
+
+        .group-name {
+            font-size: 2rem;
+            color: #8a2be2;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .group-description {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .music-player {
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #8a2be2, #ff6b6b);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.5);
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .track-duration {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(45deg, #8a2be2, #ff6b6b);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .video-container {
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.8);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .video-container video {
+            border-radius: 10px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .groups-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#groups">Groups</a></li>
+            <li><a href="#music">Music</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section with Slider -->
+    <section id="home" class="hero-section">
+        <div class="slider">
+            <div class="slide active"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">SYMPHONIC METAL</h1>
+            <p class="hero-subtitle">오케스트라의 웅장함과 메탈의 파워가 만나는 곳</p>
+        </div>
+
+        <div class="slider-nav">
+            <div class="nav-dot active" onclick="goToSlide(0)"></div>
+            <div class="nav-dot" onclick="goToSlide(1)"></div>
+            <div class="nav-dot" onclick="goToSlide(2)"></div>
+            <div class="nav-dot" onclick="goToSlide(3)"></div>
+            <div class="nav-dot" onclick="goToSlide(4)"></div>
+        </div>
+    </section>
+
+    <!-- Groups Section -->
+    <section id="groups" class="groups-section">
+        <h2 class="section-title fade-in">전설적인 심포닉 메탈 그룹들</h2>
+        
+        <div class="groups-container">
+            <div class="group-card fade-in">
+                <h3 class="group-name">NIGHTWISH</h3>
+                <p class="group-description">
+                    핀란드 출신의 심포닉 메탈 선구자. Tarja Turunen의 오페라틱한 보컬로 시작해 현재 Floor Jansen의 다채로운 보컬까지, 
+                    오케스트라와 메탈의 완벽한 조화를 보여주는 대표적인 밴드입니다.
+                </p>
+                <div class="music-player">
+                    <button class="play-btn" onclick="toggleVideo(this, 'nightwish-video')">▶</button>
+                    <div class="track-info">
+                        <div class="track-name">Wish I Had An Angel</div>
+                        <div class="track-duration">4:06</div>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-nightwish"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-container" id="video-container-nightwish" style="display: none;">
+                    <video id="nightwish-video" controls width="100%">
+                        <source src="video/nightwish.mp4" type="video/mp4">
+                        브라우저가 비디오를 지원하지 않습니다.
+                    </video>
+                </div>
+            </div>
+
+            <div class="group-card fade-in">
+                <h3 class="group-name">EPICA</h3>
+                <p class="group-description">
+                    네덜란드의 심포닉 메탈 거장들. Simone Simons의 천상의 보컬과 Mark Jansen의 그로울이 조화를 이루며, 
+                    철학적 가사와 복잡한 음악 구조로 심포닉 메탈의 새로운 지평을 열었습니다.
+                </p>
+                <div class="music-player">
+                    <button class="play-btn" onclick="togglePlay(this, 'epica')">▶</button>
+                    <div class="track-info">
+                        <div class="track-name">Storm the Sorrow</div>
+                        <div class="track-duration">5:07</div>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-epica"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-container" id="video-container-nightwish" style="display: none;">
+                    <video id="nightwish-video" controls width="100%">
+                        <source src="video/nightwish.mp4" type="video/mp4">
+                        브라우저가 비디오를 지원하지 않습니다.
+                    </video>
+                </div>
+            </div>
+
+            <div class="group-card fade-in">
+                <h3 class="group-name">WITHIN TEMPTATION</h3>
+                <p class="group-description">
+                    네덜란드의 또 다른 보석. Sharon den Adel의 강력하면서도 감성적인 보컬로 심포닉 메탈과 
+                    고딕 메탈의 경계를 넘나들며 전 세계적인 성공을 거둔 밴드입니다.
+                </p>
+                <div class="music-player">
+                    <button class="play-btn" onclick="togglePlay(this, 'within')">▶</button>
+                    <div class="track-info">
+                        <div class="track-name">Ice Queen</div>
+                        <div class="track-duration">3:26</div>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-within"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group-card fade-in">
+                <h3 class="group-name">LACUNA COIL</h3>
+                <p class="group-description">
+                    이탈리아의 고딕/심포닉 메탈 대표주자. Cristina Scabbia와 Andrea Ferro의 듀얼 보컬 시스템으로 
+                    어둡고 몽환적인 분위기와 멜로딕한 아름다움을 동시에 선사합니다.
+                </p>
+                <div class="music-player">
+                    <button class="play-btn" onclick="togglePlay(this, 'lacuna')">▶</button>
+                    <div class="track-info">
+                        <div class="track-name">Our Truth</div>
+                        <div class="track-duration">4:05</div>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-lacuna"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group-card fade-in">
+                <h3 class="group-name">AMARANTHE</h3>
+                <p class="group-description">
+                    스웨덴의 혁신적인 밴드. 세 명의 보컬리스트가 각각 클린 보컬, 그로울, 팝 멜로디를 담당하며 
+                    심포닉 메탈에 모던한 요소를 접목시킨 차세대 선도주자입니다.
+                </p>
+                <div class="music-player">
+                    <button class="play-btn" onclick="togglePlay(this, 'amaranthe')">▶</button>
+                    <div class="track-info">
+                        <div class="track-name">Hunger</div>
+                        <div class="track-duration">3:51</div>
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-amaranthe"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            navDots[currentSlide].classList.remove('active');
+            
+            currentSlide = index;
+            
+            slides[currentSlide].classList.add('active');
+            navDots[currentSlide].classList.add('active');
+        }
+
+        // Auto-advance slides
+        setInterval(() => {
+            const nextSlide = (currentSlide + 1) % slides.length;
+            goToSlide(nextSlide);
+        }, 4000);
+
+        // Video player functionality
+        function toggleVideo(button, videoId) {
+            const video = document.getElementById(videoId);
+            const container = document.getElementById(`video-container-${videoId.split('-')[0]}`);
+            const progressBar = document.getElementById(`progress-${videoId.split('-')[0]}`);
+            
+            if (video.paused) {
+                // 다른 비디오들 정지
+                document.querySelectorAll('video').forEach(v => {
+                    if (v !== video && !v.paused) {
+                        v.pause();
+                        const otherId = v.id.split('-')[0];
+                        const otherBtn = document.querySelector(`[onclick*="${v.id}"]`);
+                        const otherContainer = document.getElementById(`video-container-${otherId}`);
+                        if (otherBtn) otherBtn.innerHTML = '▶';
+                        if (otherContainer) otherContainer.style.display = 'none';
+                    }
+                });
+                
+                // 현재 비디오 재생
+                video.play();
+                button.innerHTML = '⏸';
+                container.style.display = 'block';
+                
+                // 프로그레스 바 업데이트
+                video.addEventListener('timeupdate', function() {
+                    const progress = (video.currentTime / video.duration) * 100;
+                    progressBar.style.width = progress + '%';
+                });
+                
+                // 비디오 끝났을 때
+                video.addEventListener('ended', function() {
+                    button.innerHTML = '▶';
+                    progressBar.style.width = '0%';
+                    container.style.display = 'none';
+                });
+                
+            } else {
+                // 비디오 일시정지
+                video.pause();
+                button.innerHTML = '▶';
+                container.style.display = 'none';
+            }
+        }
+
+        // Music player functionality (기존 함수는 다른 밴드들용으로 유지)
+        let currentlyPlaying = null;
+        let playbackIntervals = {};
+
+        function togglePlay(button, trackId) {
+            if (currentlyPlaying && currentlyPlaying !== trackId) {
+                // Stop currently playing track
+                const currentBtn = document.querySelector(`[onclick*="${currentlyPlaying}"]`);
+                currentBtn.innerHTML = '▶';
+                clearInterval(playbackIntervals[currentlyPlaying]);
+                document.getElementById(`progress-${currentlyPlaying}`).style.width = '0%';
+            }
+
+            if (currentlyPlaying === trackId) {
+                // Pause current track
+                button.innerHTML = '▶';
+                clearInterval(playbackIntervals[trackId]);
+                currentlyPlaying = null;
+            } else {
+                // Play new track
+                button.innerHTML = '⏸';
+                currentlyPlaying = trackId;
+                
+                // Simulate progress
+                let progress = 0;
+                const maxProgress = 100;
+                playbackIntervals[trackId] = setInterval(() => {
+                    progress += 0.5;
+                    document.getElementById(`progress-${trackId}`).style.width = `${progress}%`;
+                    
+                    if (progress >= maxProgress) {
+                        button.innerHTML = '▶';
+                        clearInterval(playbackIntervals[trackId]);
+                        currentlyPlaying = null;
+                        setTimeout(() => {
+                            document.getElementById(`progress-${trackId}`).style.width = '0%';
+                        }, 500);
+                    }
+                }, 100);
+            }
+        }
+
+        // Scroll animations
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            observeElements();
+        });
+    </script>
+</body>
+</html>
